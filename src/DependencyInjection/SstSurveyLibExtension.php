@@ -50,8 +50,17 @@ class SstSurveyLibExtension extends Extension implements PrependExtensionInterfa
         $container->autowire(AddAnswerServiceInterface::class, $configs['services']['addAnswerService']);
         $container->autowire(ValidateAnswerServiceInterface::class, $configs['services']['validateAnswerService']);
 
-        Type::addType(ElementDataType::ELEMENT_DATA_TYPE, $configs['typeMappings']['elementData']);
-        Type::addType(RawAnswerType::RAW_ANSWER_DATA_TYPE, $configs['typeMappings']['rawAnswer']);
+        if (Type::hasType(ElementDataType::ELEMENT_DATA_TYPE)) {
+            Type::overrideType(ElementDataType::ELEMENT_DATA_TYPE, $configs['typeMappings']['elementData']);
+        } else {
+            Type::addType(ElementDataType::ELEMENT_DATA_TYPE, $configs['typeMappings']['elementData']);
+        }
+
+        if (Type::hasType(RawAnswerType::RAW_ANSWER_DATA_TYPE)) {
+            Type::overrideType(RawAnswerType::RAW_ANSWER_DATA_TYPE, $configs['typeMappings']['rawAnswer']);
+        } else {
+            Type::addType(RawAnswerType::RAW_ANSWER_DATA_TYPE, $configs['typeMappings']['rawAnswer']);
+        }
         $container->loadFromExtension('doctrine', [
             'dbal' => [
                 'types' => [
