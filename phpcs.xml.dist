@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ruleset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="vendor/squizlabs/php_codesniffer/phpcs.xsd">
+
+    <arg name="basepath" value="."/>
+    <arg name="cache" value=".phpcs-cache"/>
+    <arg name="colors"/>
+    <arg name="extensions" value="php"/>
+
+    <rule ref="PSR12">
+        <exclude name="Generic.Files.LineLength.TooLong"/>
+    </rule>
+
+    <file>src/</file>
+    <file>tests/</file>
+
+    <!-- TODO: Check if these rules aren't already part of PSR12 -->
+
+    <rule ref="Generic.Arrays.DisallowLongArraySyntax"/>
+    <rule ref="Generic.NamingConventions.ConstructorName"/>
+    <rule ref="Generic.PHP.DeprecatedFunctions"/>
+    <rule ref="Generic.Strings.UnnecessaryStringConcat"/>
+    <rule ref="Squiz.PHP.NonExecutableCode"/>
+    <rule ref="Squiz.Strings.DoubleQuoteUsage"/>
+    <rule ref="Squiz.Scope.StaticThisUsage"/>
+    <!-- Ensure 1 blank line before and after functions, except at the top and bottom. -->
+    <rule ref="Squiz.WhiteSpace.FunctionSpacing">
+        <properties>
+            <property name="spacing" value="1"/>
+            <property name="spacingBeforeFirst" value="0"/>
+            <property name="spacingAfterLast" value="0"/>
+        </properties>
+    </rule>
+
+    <config name="installed_paths" value="vendor/slevomat/coding-standard"/>
+
+    <rule ref="SlevomatCodingStandard.Arrays.TrailingArrayComma"/>
+    <rule ref="SlevomatCodingStandard.TypeHints.DeclareStrictTypes">
+        <properties>
+            <property name="newlinesCountBetweenOpenTagAndDeclare" value="1"/>
+            <property name="spacesCountAroundEqualsSign" value="0"/>
+        </properties>
+    </rule>
+    <!--<rule ref="SlevomatCodingStandard.Classes.ModernClassNameReference" />-->
+    <rule ref="SlevomatCodingStandard.Classes.ClassConstantVisibility"/>
+    <rule ref="SlevomatCodingStandard.TypeHints.ReturnTypeHintSpacing"/>
+    <rule ref="SlevomatCodingStandard.TypeHints.NullableTypeForNullDefaultValue"/>
+    <rule ref="SlevomatCodingStandard.TypeHints.ParameterTypeHintSpacing"/>
+    <rule ref="SlevomatCodingStandard.PHP.ForbiddenClasses">
+        <properties>
+            <property name="forbiddenClasses" type="array">
+                <element key="Sg\DatatablesBundle\Datatable\Filter\DateRangeFilter" value="App\Datatable\Filter\DateRangeFilter"/>
+                <element key="Sg\DatatablesBundle\Datatable\Filter\SelectFilter" value="App\Datatable\Filter\SelectFilter"/>
+                <element key="Sg\DatatablesBundle\Datatable\Filter\TextFilter" value="App\Datatable\Filter\TextFilter"/>
+            </property>
+        </properties>
+    </rule>
+
+</ruleset>
