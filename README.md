@@ -65,6 +65,13 @@ This bundle provides several default ElementData types:
 
 You can extend or overwrite these, as long as your ElementData implements the correct interface, matching the `type` of the Element.
 
+### Display conditions
+
+This bundle provides a service to check if a given ElementUsage should be displayed, based on a given SurveyResponse.  
+To identify elements, it uses the `code` parameter of the ElementUsage.  
+The provided `displayConditionService` assumes that `ElementUsage->display_condition` contains a valid expression, see [Symfony Expression Language](https://symfony.com/doc/current/components/expression_language.html).  
+So make sure, this code is unique in the set you are checking, usually this means, that it should be unique in the related survey.
+
 ## Services
 
 This bundle contains several services to use in your survey-project. These are injected automatically when using their interfaces.

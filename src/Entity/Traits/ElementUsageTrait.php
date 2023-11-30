@@ -27,7 +27,8 @@ trait ElementUsageTrait
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     protected ?string $displayCondition = null;
 
-    #[ORM\Column(length: 255, unique: true)]
+    // Please note; in order to let conditions work properly, this code should be unique, at least per survey.
+    #[ORM\Column(length: 255)]
     protected string $code = '';
 
     #[ORM\ManyToOne(inversedBy: 'elementUsages')]
@@ -81,6 +82,11 @@ trait ElementUsageTrait
         return $this->code;
     }
 
+    /**
+     * Please note; in order to let conditions work properly, this code should be unique, at least per survey.
+     * @param string $code
+     * @return $this
+     */
     public function setCode(string $code): static
     {
         $this->code = $code;
