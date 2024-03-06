@@ -200,7 +200,11 @@ class ValidateAnswerService implements ValidateAnswerServiceInterface
         foreach ($answerOptions as $answerOption) {
             $answerOptionValues[] = $answerOption->getValue();
         }
-        return [new Choice(['choices' => $answerOptionValues, 'multiple' => $elementData->getMultipleAnswersAllowed()])];
+        $constraints = [new Choice(['choices' => $answerOptionValues, 'multiple' => $elementData->getMultipleAnswersAllowed()])];
+        if ($elementData->getRequired()) {
+            $constraints[] = new NotBlank();
+        }
+        return $constraints;
     }
 
     /**
