@@ -202,11 +202,12 @@ class ValidateAnswerServiceTest extends TestCase
 
         $contextualValidator
             ->method('validate')
-            ->will($this->returnCallback(function ($rawAnswer, $constraints) use ($contextualValidator) {
-                $this->assertCount(1, $constraints);
+            ->willReturnCallback(function ($rawAnswer, $constraints) use ($contextualValidator) {
+                $this->assertCount(2, $constraints);
                 $this->assertInstanceOf(Choice::class, $constraints[0]);
+                $this->assertInstanceOf(NotBlank::class, $constraints[1]);
                 return $contextualValidator;
-            }))
+            })
         ;
 
         $validator = $this->createMock(ValidatorInterface::class);
