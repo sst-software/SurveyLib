@@ -42,6 +42,7 @@ class Configuration implements ConfigurationInterface
                     ->children()
                         ->scalarNode('elementData')->defaultValue('Sst\SurveyLibBundle\Types\ElementDataType')->end()
                         ->scalarNode('rawAnswer')->defaultValue('Sst\SurveyLibBundle\Types\RawAnswerType')->end()
+                        ->scalarNode('elementOverride')->defaultValue('Sst\SurveyLibBundle\Types\ElementOverrideType')->end()
                     ->end()
                 ->end()
             ->end()

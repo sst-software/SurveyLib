@@ -5,20 +5,14 @@ declare(strict_types=1);
 namespace Sst\SurveyLibBundle\DependencyInjection;
 
 use Doctrine\DBAL\Types\Type;
-use Sst\SurveyLibBundle\Interfaces\Entity\AnswerInterface;
-use Sst\SurveyLibBundle\Interfaces\Entity\ContainerInterface;
-use Sst\SurveyLibBundle\Interfaces\Entity\ElementInterface;
-use Sst\SurveyLibBundle\Interfaces\Entity\ElementOverrideInterface;
-use Sst\SurveyLibBundle\Interfaces\Entity\ElementUsageInterface;
-use Sst\SurveyLibBundle\Interfaces\Entity\SurveyInterface;
-use Sst\SurveyLibBundle\Interfaces\Entity\SurveyResponseInterface;
 use Sst\SurveyLibBundle\Interfaces\Service\AddAnswerServiceInterface;
 use Sst\SurveyLibBundle\Interfaces\Service\AstToJavascriptServiceInterface;
 use Sst\SurveyLibBundle\Interfaces\Service\CreateSurveyResponseServiceInterface;
 use Sst\SurveyLibBundle\Interfaces\Service\DisplayConditionServiceInterface;
 use Sst\SurveyLibBundle\Interfaces\Service\NextElementServiceInterface;
-use Sst\SurveyLibBundle\Types\ElementDataType;
 use Sst\SurveyLibBundle\Interfaces\Service\ValidateAnswerServiceInterface;
+use Sst\SurveyLibBundle\Types\ElementDataType;
+use Sst\SurveyLibBundle\Types\ElementOverrideType;
 use Sst\SurveyLibBundle\Types\RawAnswerType;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -61,11 +55,18 @@ class SstSurveyLibExtension extends Extension implements PrependExtensionInterfa
         } else {
             Type::addType(RawAnswerType::RAW_ANSWER_DATA_TYPE, $configs['typeMappings']['rawAnswer']);
         }
+
+        if (Type::hasType(ElementOverrideType::ELEMENT_OVERRIDE_TYPE)) {
+            Type::overrideType(ElementOverrideType::ELEMENT_OVERRIDE_TYPE, $configs['typeMappings']['elementOverride']);
+        } else {
+            Type::addType(ElementOverrideType::ELEMENT_OVERRIDE_TYPE, $configs['typeMappings']['elementOverride']);
+        }
         $container->loadFromExtension('doctrine', [
             'dbal' => [
                 'types' => [
                     ElementDataType::ELEMENT_DATA_TYPE => $configs['typeMappings']['elementData'],
                     RawAnswerType::RAW_ANSWER_DATA_TYPE => $configs['typeMappings']['rawAnswer'],
+                    ElementOverrideType::ELEMENT_OVERRIDE_TYPE => $configs['typeMappings']['elementOverride'],
                 ],
             ],
         ]);

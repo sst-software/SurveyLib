@@ -13,6 +13,7 @@ use Sst\SurveyLibBundle\Interfaces\Entity\AnswerInterface;
 use Sst\SurveyLibBundle\Interfaces\Entity\ContainerInterface;
 use Sst\SurveyLibBundle\Interfaces\Entity\ElementInterface;
 use Sst\SurveyLibBundle\Interfaces\Entity\ElementOverrideInterface;
+use Sst\SurveyLibBundle\Types\ElementOverrideType;
 
 trait ElementUsageTrait
 {
@@ -39,7 +40,7 @@ trait ElementUsageTrait
     #[ORM\JoinColumn(nullable: true)]
     protected ?ElementInterface $element = null;
 
-    #[ORM\Column(type: Types::JSON, nullable: true)]
+    #[ORM\Column(type: ElementOverrideType::ELEMENT_OVERRIDE_TYPE, nullable: true)]
     protected ?ElementOverrideInterface $elementOverride = null;
 
     #[ORM\OneToMany(mappedBy: 'elementUsage', targetEntity: AnswerInterface::class)]
