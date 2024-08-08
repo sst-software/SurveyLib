@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Sst\SurveyLibBundle\Interfaces\Entity\ElementData;
 
-use Sst\SurveyLibBundle\Interfaces\Entity\ElementData\SubItems\MultipleChoiceGridQuestionQuestionInterface;
 use Sst\SurveyLibBundle\Interfaces\Entity\ElementData\SubItems\MultipleChoiceQuestionAnswerOptionInterface;
 
 interface MultipleChoiceGridQuestionElementDataInterface extends ElementDataInterface

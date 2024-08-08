@@ -143,7 +143,6 @@ trait ContainerTrait
     }
 
     /**
-     * @param bool $recursive
      * @return Collection<int, ContainerInterface>
      */
     public function getChildContainers(bool $recursive = false): Collection

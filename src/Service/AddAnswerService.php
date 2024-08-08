@@ -30,7 +30,6 @@ class AddAnswerService implements AddAnswerServiceInterface
     }
 
     /**
-     * @param SurveyResponseInterface $surveyResponse
      * @param array{elementUsage: ElementUsageInterface, rawAnswer: mixed, skipped: bool} $answers
      * @return array{elementUsage: ElementUsageInterface, answer: ?AnswerInterface}[]
      * @throws AnswerValidationException
@@ -67,11 +66,6 @@ class AddAnswerService implements AddAnswerServiceInterface
     }
 
     /**
-     * @param SurveyResponseInterface $surveyResponse
-     * @param ElementUsageInterface $elementUsage
-     * @param mixed $rawAnswer
-     * @param bool $skipped
-     * @return AnswerInterface
      * @throws AnswerValidationException
      */
     public function addAnswer(

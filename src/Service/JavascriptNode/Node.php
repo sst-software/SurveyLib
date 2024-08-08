@@ -9,8 +9,10 @@ class Node
     public $nodes = [];
     public $attributes = [];
 
-    public function __construct(array $nodes = [], array $attributes = [])
-    {
+    public function __construct(
+        array $nodes = [],
+        array $attributes = [],
+    ) {
         $this->nodes = $nodes;
         $this->attributes = $attributes;
     }

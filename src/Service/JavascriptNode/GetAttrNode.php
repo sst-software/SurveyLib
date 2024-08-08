@@ -10,8 +10,12 @@ class GetAttrNode extends Node
     public const METHOD_CALL = 2;
     public const ARRAY_CALL = 3;
 
-    public function __construct(Node $node, Node $attribute, ArrayNode $arguments, int $type)
-    {
+    public function __construct(
+        Node $node,
+        Node $attribute,
+        ArrayNode $arguments,
+        int $type,
+    ) {
         parent::__construct(
             ['node' => $node, 'attribute' => $attribute, 'arguments' => $arguments],
             ['type' => $type, 'is_null_coalesce' => false, 'is_short_circuited' => false],

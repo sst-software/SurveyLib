@@ -9,8 +9,9 @@ use Symfony\Contracts\EventDispatcher\Event;
 
 class SurveyResponseCreate extends Event
 {
-    public function __construct(protected SurveyResponseInterface $surveyResponse)
-    {
+    public function __construct(
+        protected SurveyResponseInterface $surveyResponse,
+    ) {
     }
 
     public function getSurveyResponse(): SurveyResponseInterface

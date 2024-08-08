@@ -60,7 +60,6 @@ trait SurveyTrait
     }
 
     /**
-     * @param bool $recursive
      * @return Collection<int, ContainerInterface>
      */
     public function getContainers(bool $recursive = false): Collection

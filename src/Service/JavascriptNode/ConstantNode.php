@@ -8,8 +8,11 @@ class ConstantNode extends Node
 {
     public readonly bool $isNullSafe;
 
-    public function __construct(mixed $value, bool $isIdentifier = false, bool $isNullSafe = false)
-    {
+    public function __construct(
+        mixed $value,
+        bool $isIdentifier = false,
+        bool $isNullSafe = false,
+    ) {
         //$isIdentifier is not used, but we keep it, to keep the same signature as the original class
         $this->isNullSafe = $isNullSafe;
         parent::__construct(

@@ -85,7 +85,6 @@ trait ElementUsageTrait
 
     /**
      * Please note; in order to let conditions work properly, this code should be unique, at least per survey.
-     * @param string $code
      * @return $this
      */
     public function setCode(string $code): static

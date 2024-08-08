@@ -124,7 +124,7 @@ class NextElementService implements NextElementServiceInterface
         ContainerInterface $container,
         ElementUsageInterface|null $elementUsage,
         SurveyResponseInterface $surveyResponse,
-        bool $reverse
+        bool $reverse,
     ): ElementUsageInterface|ContainerInterface|null {
         $elementUsages = $this->getSortedElementUsagesFromContainer($container, $surveyResponse, $elementUsage, $reverse);
 
@@ -167,7 +167,7 @@ class NextElementService implements NextElementServiceInterface
     protected function getParentAndSiblingContainers(
         ContainerInterface|SurveyInterface $containerOrSurvey,
         SurveyResponseInterface $surveyResponse,
-        bool $reverse
+        bool $reverse,
     ): array {
         if ($containerOrSurvey instanceof ContainerInterface) {
             $parentContainer = $containerOrSurvey->getParentContainer();
@@ -256,7 +256,6 @@ class NextElementService implements NextElementServiceInterface
      * Returns a filtered subset of the given collection, based on the visibility of the items in the collection. (determined by the displayConditionService).
      * If an item has no visible child containers or element usages, it will not be included in the result. (checked recursively)
      * @param Collection<int, ContainerInterface|ElementUsageInterface> $containersOrElementUsages
-     * @param SurveyResponseInterface $surveyResponse
      * @return Collection<int, ContainerInterface|ElementUsageInterface>
      */
     protected function filterVisibleItems(Collection $containersOrElementUsages, SurveyResponseInterface $surveyResponse, bool $reverse): Collection
@@ -319,10 +318,7 @@ class NextElementService implements NextElementServiceInterface
 
     /**
      * Only returns visible element-usages, determined by the displayConditionService
-     * @param ContainerInterface $container
-     * @param SurveyResponseInterface $surveyResponse
      * @param ElementUsageInterface|null $elementUsage Current elementUsage, if known. Used to check; if the current item is not in the filtered list, it will be returned in the result anyway
-     * @param bool $reverse
      * @return Collection<int, ElementUsageInterface>
      */
     protected function getSortedElementUsagesFromContainer(ContainerInterface $container, SurveyResponseInterface $surveyResponse, ElementUsageInterface|null $elementUsage, bool $reverse): Collection

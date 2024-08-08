@@ -19,7 +19,6 @@ interface SurveyInterface
     public function setCode(?string $code): static;
 
     /**
-     * @param bool $recursive
      * @return Collection<int, ContainerInterface>
      */
     public function getContainers(bool $recursive = false): Collection;

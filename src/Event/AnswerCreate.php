@@ -10,8 +10,10 @@ use Symfony\Contracts\EventDispatcher\Event;
 
 class AnswerCreate extends Event
 {
-    public function __construct(protected AnswerInterface $answer, protected ?ConstraintViolationListInterface $validationViolations = null)
-    {
+    public function __construct(
+        protected AnswerInterface $answer,
+        protected ?ConstraintViolationListInterface $validationViolations = null,
+    ) {
     }
 
     public function getValidationViolations(): ?ConstraintViolationListInterface

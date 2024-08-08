@@ -35,7 +35,6 @@ interface ContainerInterface
     public function setParentContainer(?ContainerInterface $parentContainer): static;
 
     /**
-     * @param bool $recursive
      * @return Collection<int, ContainerInterface>
      */
     public function getChildContainers(bool $recursive = false): Collection;

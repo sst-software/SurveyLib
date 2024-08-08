@@ -33,7 +33,6 @@ class CreateSurveyResponseService implements CreateSurveyResponseServiceInterfac
     }
 
     /**
-     * @param SurveyInterface $survey
      * @return array<int, int> key: elementUsageId, value: sortOrder
      */
     protected function getShuffledElementUsageSortOrders(SurveyInterface $survey): array

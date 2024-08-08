@@ -20,7 +20,6 @@ use Sst\SurveyLibBundle\Interfaces\Entity\ElementData\SubItems\MultipleChoiceGri
 use Sst\SurveyLibBundle\Interfaces\Entity\ElementData\TextQuestionElementDataInterface;
 use Sst\SurveyLibBundle\Interfaces\Entity\ElementUsageInterface;
 use Sst\SurveyLibBundle\Interfaces\Service\ValidateAnswerServiceInterface;
-use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Constraints\Blank;
 use Symfony\Component\Validator\Constraints\Callback;
 use Symfony\Component\Validator\Constraints\Choice;
@@ -37,7 +36,7 @@ class ValidateAnswerService implements ValidateAnswerServiceInterface
 {
     public function __construct(
         protected EventDispatcherInterface $eventDispatcher,
-        protected ValidatorInterface $validator
+        protected ValidatorInterface $validator,
     ) {
     }
 
@@ -96,8 +95,6 @@ class ValidateAnswerService implements ValidateAnswerServiceInterface
     }
 
     /**
-     * @param ElementUsageInterface $elementUsage
-     * @param AnswerInterface $answer
      * @return Constraint[]
      */
     protected function getConstraintsForUnknownElement(
@@ -159,8 +156,6 @@ class ValidateAnswerService implements ValidateAnswerServiceInterface
     }
 
     /**
-     * @param ElementUsageInterface $elementUsage
-     * @param AnswerInterface $answer
      * @return Constraint[]
      */
     protected function getConstraintsForTextElement(
@@ -182,8 +177,6 @@ class ValidateAnswerService implements ValidateAnswerServiceInterface
     }
 
     /**
-     * @param ElementUsageInterface $elementUsage
-     * @param AnswerInterface $answer
      * @return Constraint[]
      */
     protected function getConstraintsForMultipleChoiceElement(
@@ -208,8 +201,6 @@ class ValidateAnswerService implements ValidateAnswerServiceInterface
     }
 
     /**
-     * @param ElementUsageInterface $elementUsage
-     * @param AnswerInterface $answer
      * @return Constraint[]
      */
     protected function getConstraintsForMultipleChoiceGridElement(
@@ -281,8 +272,6 @@ class ValidateAnswerService implements ValidateAnswerServiceInterface
     }
 
     /**
-     * @param ElementUsageInterface $elementUsage
-     * @param AnswerInterface $answer
      * @return Constraint[]
      */
     protected function getConstraintsForNumberElement(
@@ -302,8 +291,6 @@ class ValidateAnswerService implements ValidateAnswerServiceInterface
     }
 
     /**
-     * @param ElementUsageInterface $elementUsage
-     * @param AnswerInterface $answer
      * @return Constraint[]
      */
     protected function getConstraintsForDateTimeElement(
@@ -348,8 +335,6 @@ class ValidateAnswerService implements ValidateAnswerServiceInterface
     }
 
     /**
-     * @param ElementUsageInterface $elementUsage
-     * @param AnswerInterface $answer
      * @return Constraint[]
      */
     protected function getConstraintsForScaleElement(
@@ -369,8 +354,6 @@ class ValidateAnswerService implements ValidateAnswerServiceInterface
     }
 
     /**
-     * @param ElementUsageInterface $elementUsage
-     * @param AnswerInterface $answer
      * @return Constraint[]
      */
     protected function getConstraintsForCustomElement(

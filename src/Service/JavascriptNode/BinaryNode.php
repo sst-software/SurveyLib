@@ -19,8 +19,11 @@ class BinaryNode extends Node
         'ends with' => 'endsWith',
     ];
 
-    public function __construct(string $operator, Node $left, Node $right)
-    {
+    public function __construct(
+        string $operator,
+        Node $left,
+        Node $right,
+    ) {
         parent::__construct(
             ['left' => $left, 'right' => $right],
             ['operator' => $operator],
