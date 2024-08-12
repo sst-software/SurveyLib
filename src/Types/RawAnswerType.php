@@ -17,6 +17,9 @@ class RawAnswerType extends Type
         return self::RAW_ANSWER_DATA_TYPE;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function convertToPHPValue($value, AbstractPlatform $platform): mixed
     {
         if ($value === null) {
@@ -36,6 +39,9 @@ class RawAnswerType extends Type
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function convertToDatabaseValue($value, AbstractPlatform $platform): mixed
     {
         return serialize($value);

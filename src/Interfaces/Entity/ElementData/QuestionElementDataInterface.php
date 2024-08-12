@@ -10,7 +10,7 @@ interface QuestionElementDataInterface extends ElementDataInterface
 
     public function setRequired(bool $required): static;
 
-    public function getDefaultAnswer();
+    public function getDefaultAnswer(): mixed;
 
-    public function setDefaultAnswer($defaultAnswer): static;
+    public function setDefaultAnswer(mixed $defaultAnswer): static;
 }

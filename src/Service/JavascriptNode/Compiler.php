@@ -16,7 +16,7 @@ class Compiler implements ResetInterface
         $this->functions = $functions;
     }
 
-    public function getFunction(string $name)
+    public function getFunction(string $name): array
     {
         return $this->functions[$name];
     }
@@ -46,7 +46,7 @@ class Compiler implements ResetInterface
         return $this;
     }
 
-    public function subcompile(Node $node)
+    public function subcompile(Node $node): string
     {
         $current = $this->source;
         $this->source = '';

@@ -26,7 +26,7 @@ class AstToJavascriptService implements AstToJavascriptServiceInterface
         return $compiler->compile($translatedAst)->getSource();
     }
 
-    protected function replaceNodesForJavascriptEquivalents(Node $node)
+    protected function replaceNodesForJavascriptEquivalents(Node $node): mixed
     {
         switch (true) {
             case $node instanceof ArgumentsNode:

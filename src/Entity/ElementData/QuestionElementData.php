@@ -23,12 +23,12 @@ class QuestionElementData extends ElementData implements QuestionElementDataInte
         return $this;
     }
 
-    public function getDefaultAnswer()
+    public function getDefaultAnswer(): mixed
     {
         return $this->defaultAnswer;
     }
 
-    public function setDefaultAnswer($defaultAnswer): static
+    public function setDefaultAnswer(mixed $defaultAnswer): static
     {
         $this->defaultAnswer = $defaultAnswer;
         return $this;

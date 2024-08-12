@@ -190,8 +190,7 @@ class NextElementService implements NextElementServiceInterface
 
     protected function addContainerIfNotAlreadyInList(ContainerInterface $container, Collection $filteredContainers, Collection $originalContainers, bool $reverse): Collection
     {
-        if (
-            $originalContainers->contains($container) &&
+        if ($originalContainers->contains($container) &&
             !$filteredContainers->contains($container)
         ) {
             $filteredContainers->add($container);

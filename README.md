@@ -109,6 +109,7 @@ sst_survey_lib:
     typeMappings:
         elementData: Sst\SurveyLibBundle\Types\ElementDataType
         rawAnswer: Sst\SurveyLibBundle\Types\RawAnswerType
+        elementOverride: Sst\SurveyLibBundle\Types\ElementOverrideType
 ```
 
 These are the default values, if these are the values you need, you don't need to create the file.

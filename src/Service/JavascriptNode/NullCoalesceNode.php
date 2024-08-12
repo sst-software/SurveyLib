@@ -11,7 +11,7 @@ class NullCoalesceNode extends Node
         parent::__construct(['expr1' => $expr1, 'expr2' => $expr2]);
     }
 
-    public function compile(Compiler $compiler)
+    public function compile(Compiler $compiler): void
     {
         $compiler
             ->raw('((')

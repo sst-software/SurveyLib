@@ -112,7 +112,7 @@ class ValidateAnswerService implements ValidateAnswerServiceInterface
     ): array {
         return [
             new Blank(),
-            new Callback(callback: function ($rawAnswer, ExecutionContextInterface $context, $payload) {
+            new Callback(callback: function ($rawAnswer, ExecutionContextInterface $context, $payload): void {
                 $elementData = $context->getRoot()?->getElementUsage()?->getElementWithOverrides()?->getElementData();
                 if ($elementData === null) {
                     throw new \InvalidArgumentException('Answer cannot be validated because the element-data cannot be retrieved from the answer');
@@ -214,7 +214,7 @@ class ValidateAnswerService implements ValidateAnswerServiceInterface
 
         return [
             new Type('array'),
-            new Callback(callback: function ($rawAnswer, ExecutionContextInterface $context, $payload) {
+            new Callback(callback: function ($rawAnswer, ExecutionContextInterface $context, $payload): void {
                 $elementData = $context->getRoot()?->getElementUsage()?->getElementWithOverrides()?->getElementData();
                 if ($elementData === null) {
                     throw new \InvalidArgumentException('Answer cannot be validated because the element-data cannot be retrieved from the answer');
@@ -303,7 +303,7 @@ class ValidateAnswerService implements ValidateAnswerServiceInterface
         }
 
         $result = [
-            new Callback(callback: function ($rawAnswer, ExecutionContextInterface $context, $payload) {
+            new Callback(callback: function ($rawAnswer, ExecutionContextInterface $context, $payload): void {
                 if (!$rawAnswer instanceof DateTimeInterface) {
                     $context
                         ->buildViolation('This value should be of type {{ type }}.')

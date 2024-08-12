@@ -21,7 +21,7 @@ class ConstantNode extends Node
         );
     }
 
-    public function compile(Compiler $compiler)
+    public function compile(Compiler $compiler): void
     {
         $compiler->repr($this->attributes['value']);
     }

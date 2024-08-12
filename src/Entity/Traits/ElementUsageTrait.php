@@ -152,8 +152,7 @@ trait ElementUsageTrait
 
     public function setElementOverride(?ElementOverrideInterface $elementOverride): static
     {
-        if (
-            $elementOverride?->getElementData() !== null &&
+        if ($elementOverride?->getElementData() !== null &&
             $this->getElement() !== null &&
             !$this->getElement()->elementDataIsValidForElement($elementOverride->getElementData())
         ) {

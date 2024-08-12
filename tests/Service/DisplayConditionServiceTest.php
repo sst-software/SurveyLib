@@ -27,26 +27,26 @@ class DisplayConditionServiceTest extends TestCase
         parent::setUp();
     }
 
-    public function testEmptyDisplayConditionItemVisible()
+    public function testEmptyDisplayConditionItemVisible(): void
     {
         $elementUsage = new DummyElementUsage();
         $surveyResponse = new DummySurveyResponse();
         $this->assertTrue($this->service->itemVisible($elementUsage, $surveyResponse));
     }
 
-    public function testEmptyDisplayConditionPhpCondition()
+    public function testEmptyDisplayConditionPhpCondition(): void
     {
         $elementUsage = new DummyElementUsage();
         $this->assertEquals('true', $this->service->getPhpCondition($elementUsage));
     }
 
-    public function testEmptyDisplayConditionJavascriptCondition()
+    public function testEmptyDisplayConditionJavascriptCondition(): void
     {
         $elementUsage = new DummyElementUsage();
         $this->assertEquals('true', $this->service->getJavascriptCondition($elementUsage));
     }
 
-    public function testDisplayConditionPhpConditionStringOutput()
+    public function testDisplayConditionPhpConditionStringOutput(): void
     {
         $elementUsage = new DummyElementUsage();
         $elementUsage->setDisplayCondition("((answers['test']['answer'] in {11:1,12:2,13:3,14:4,15:5}) and (answers['test']['answer'] === null)) ? true : false");
@@ -54,7 +54,7 @@ class DisplayConditionServiceTest extends TestCase
         $this->assertIsString($result);
     }
 
-    public function testDisplayConditionPhpConditionException()
+    public function testDisplayConditionPhpConditionException(): void
     {
         $this->expectException(SyntaxError::class);
         $elementUsage = new DummyElementUsage();
@@ -62,7 +62,7 @@ class DisplayConditionServiceTest extends TestCase
         $this->service->getPhpCondition($elementUsage);
     }
 
-    public function testItemVisible()
+    public function testItemVisible(): void
     {
         $elementUsage = new DummyElementUsage();
         $elementUsage->setCode('test');
@@ -78,7 +78,7 @@ class DisplayConditionServiceTest extends TestCase
         $this->assertTrue($this->service->itemVisible($elementUsage, $surveyResponse));
     }
 
-    public function testContainerVisible()
+    public function testContainerVisible(): void
     {
         $container = new DummyContainer();
         $container->setDisplayCondition("answers['test']['answer'] in 1..5");
@@ -95,7 +95,7 @@ class DisplayConditionServiceTest extends TestCase
         $this->assertTrue($this->service->itemVisible($container, $surveyResponse));
     }
 
-    public function testContainerNotVisible()
+    public function testContainerNotVisible(): void
     {
         $container = new DummyContainer();
         $container->setDisplayCondition("answers['test']['answer'] in 1..5");
@@ -112,7 +112,7 @@ class DisplayConditionServiceTest extends TestCase
         $this->assertFalse($this->service->itemVisible($container, $surveyResponse));
     }
 
-    public function testDisplayConditionJavascriptConditionStringOutput()
+    public function testDisplayConditionJavascriptConditionStringOutput(): void
     {
         $elementUsage = new DummyElementUsage();
         $elementUsage->setDisplayCondition("((answers['test']['answer'] in {11:1,12:2,13:3,14:4,15:5}) and (answers['test']['answer'] === null)) ? true : false");

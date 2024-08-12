@@ -6,7 +6,7 @@ namespace Sst\SurveyLibBundle\Service\JavascriptNode;
 
 class ArrayNode extends Node
 {
-    protected $index;
+    protected int $index;
 
     public function __construct()
     {
@@ -20,14 +20,14 @@ class ArrayNode extends Node
         array_push($this->nodes, $key, $value);
     }
 
-    public function compile(Compiler $compiler)
+    public function compile(Compiler $compiler): void
     {
         $compiler->raw('[');
         $this->compileArguments($compiler);
         $compiler->raw(']');
     }
 
-    protected function getKeyValuePairs()
+    protected function getKeyValuePairs(): array
     {
         $pairs = [];
         foreach (array_chunk($this->nodes, 2) as $pair) {
@@ -37,7 +37,7 @@ class ArrayNode extends Node
         return $pairs;
     }
 
-    protected function compileArguments(Compiler $compiler)
+    protected function compileArguments(Compiler $compiler): void
     {
         $first = true;
         foreach ($this->getKeyValuePairs() as $pair) {

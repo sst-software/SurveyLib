@@ -15,6 +15,9 @@ class ElementDataType extends JsonType
 {
     public const ELEMENT_DATA_TYPE = 'elementData';
 
+    /**
+     * {@inheritDoc}
+     */
     public function convertToPHPValue($value, AbstractPlatform $platform): mixed
     {
         $parentResult = parent::convertToPHPValue($value, $platform);
@@ -24,7 +27,10 @@ class ElementDataType extends JsonType
         return $this->convertRawDbDataArrayToElementDataObject($parentResult['className'], $parentResult['value'], $parentResult['extraData'] ?? []);
     }
 
-    public function convertToDatabaseValue($value, AbstractPlatform $platform): mixed
+    /**
+     * {@inheritDoc}
+     */
+    public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string
     {
         if ($value === null) {
             return parent::convertToDatabaseValue(null, $platform);
@@ -33,7 +39,7 @@ class ElementDataType extends JsonType
         return parent::convertToDatabaseValue($extendedValue, $platform);
     }
 
-    protected function getExtraData($value): array
+    protected function getExtraData(mixed $value): array
     {
         if ($value instanceof CustomElementDataInterface) {
             return ['elementDataType' => get_class($value->getElementData())];
@@ -49,6 +55,9 @@ class ElementDataType extends JsonType
         return self::ELEMENT_DATA_TYPE;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     protected function convertRawDbDataArrayToElementDataObject(string $className, array $dbData, array $extraData)
     {
         $class = new $className();
@@ -65,7 +74,7 @@ class ElementDataType extends JsonType
         return $class;
     }
 
-    protected function fillField(string $keyInDbData, $dbDataValue, array $extraData, $class, string $method): void
+    protected function fillField(string $keyInDbData, mixed $dbDataValue, array $extraData, mixed $class, string $method): void
     {
         if ($class instanceof CustomElementDataInterface && $keyInDbData === 'elementData') {
             $this->convertRawDbDataToCustomElementData($class, $method, $dbDataValue, $extraData['elementDataType']);
@@ -81,7 +90,7 @@ class ElementDataType extends JsonType
         $class->$method($dbDataValue);
     }
 
-    private function convertDbValueToBackedEnum($class, string $method, $dbDataValue): mixed
+    private function convertDbValueToBackedEnum(mixed $class, string $method, mixed $dbDataValue): mixed
     {
         if ($dbDataValue === null) {
             return $dbDataValue;

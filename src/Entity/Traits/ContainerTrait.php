@@ -207,8 +207,7 @@ trait ContainerTrait
         if (is_array($this->elementUsages)) {
             $this->elementUsages = new ArrayCollection();
         }
-        if (
-            !$this->isShuffleElementUsages() ||
+        if (!$this->isShuffleElementUsages() ||
             ($this->elementUsagesAreShuffled && !$reshuffle)
         ) {
             return $this->elementUsages;

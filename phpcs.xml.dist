@@ -8,14 +8,12 @@
     <arg name="colors"/>
     <arg name="extensions" value="php"/>
 
-    <rule ref="PSR12">
+    <rule ref="PSR2">
         <exclude name="Generic.Files.LineLength.TooLong"/>
     </rule>
 
     <file>src/</file>
     <file>tests/</file>
-
-    <!-- TODO: Check if these rules aren't already part of PSR12 -->
 
     <rule ref="Generic.Arrays.DisallowLongArraySyntax"/>
     <rule ref="Generic.NamingConventions.ConstructorName"/>
@@ -36,10 +34,9 @@
     <config name="installed_paths" value="vendor/slevomat/coding-standard"/>
 
     <rule ref="SlevomatCodingStandard.Arrays.TrailingArrayComma"/>
+    <rule ref="SlevomatCodingStandard.Namespaces.UnusedUses"/>
     <rule ref="SlevomatCodingStandard.TypeHints.DeclareStrictTypes">
         <properties>
-            <property name="linesCountBeforeDeclare" value="1"/>
-            <property name="linesCountAfterDeclare" value="1"/>
             <property name="spacesCountAroundEqualsSign" value="0"/>
         </properties>
     </rule>
@@ -48,14 +45,35 @@
     <rule ref="SlevomatCodingStandard.TypeHints.ReturnTypeHintSpacing"/>
     <rule ref="SlevomatCodingStandard.TypeHints.NullableTypeForNullDefaultValue"/>
     <rule ref="SlevomatCodingStandard.TypeHints.ParameterTypeHintSpacing"/>
-    <rule ref="SlevomatCodingStandard.PHP.ForbiddenClasses">
+    <rule ref="SlevomatCodingStandard.TypeHints.ParameterTypeHint">
         <properties>
-            <property name="forbiddenClasses" type="array">
-                <element key="Sg\DatatablesBundle\Datatable\Filter\DateRangeFilter" value="App\Datatable\Filter\DateRangeFilter"/>
-                <element key="Sg\DatatablesBundle\Datatable\Filter\SelectFilter" value="App\Datatable\Filter\SelectFilter"/>
-                <element key="Sg\DatatablesBundle\Datatable\Filter\TextFilter" value="App\Datatable\Filter\TextFilter"/>
+            <property name="enableMixedTypeHint" value="true"/>
+            <property name="enableUnionTypeHint" value="true"/>
+        </properties>
+        <exclude name="SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingTraversableTypeHintSpecification"/>
+    </rule>
+    <rule ref="SlevomatCodingStandard.TypeHints.ReturnTypeHint">
+        <properties>
+            <property name="enableMixedTypeHint" value="true"/>
+            <property name="enableUnionTypeHint" value="true"/>
+        </properties>
+        <exclude name="SlevomatCodingStandard.TypeHints.ReturnTypeHint.MissingTraversableTypeHintSpecification"/>
+    </rule>
+    <rule ref="SlevomatCodingStandard.TypeHints.PropertyTypeHint">
+        <properties>
+            <property name="enableNativeTypeHint" value="true"/>
+            <property name="enableMixedTypeHint" value="true"/>
+            <property name="enableUnionTypeHint" value="true"/>
+        </properties>
+        <exclude name="SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingTraversableTypeHintSpecification"/>
+    </rule>
+    <rule ref="SlevomatCodingStandard.Functions.RequireTrailingCommaInDeclaration"/>
+    <rule ref="SlevomatCodingStandard.Classes.RequireMultiLineMethodSignature">
+        <properties>
+            <property name="minLineLength" value="64"/><!-- Maybe just use "1" to force every constructor to multi line? -->
+            <property name="includedMethodPatterns" type="array">
+                <element value="/^__construct$/"/>
             </property>
         </properties>
     </rule>
-
 </ruleset>

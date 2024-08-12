@@ -6,8 +6,8 @@ namespace Sst\SurveyLibBundle\Service\JavascriptNode;
 
 class Node
 {
-    public $nodes = [];
-    public $attributes = [];
+    public array $nodes = [];
+    public array $attributes = [];
 
     public function __construct(
         array $nodes = [],
@@ -17,7 +17,7 @@ class Node
         $this->attributes = $attributes;
     }
 
-    public function compile(Compiler $compiler)
+    public function compile(Compiler $compiler): void
     {
         foreach ($this->nodes as $node) {
             $node->compile($compiler);
