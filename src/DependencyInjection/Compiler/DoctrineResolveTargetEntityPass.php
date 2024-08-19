@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Sst\SurveyLibBundle\DependencyInjection\Compiler;
 
 use Sst\SurveyLibBundle\DependencyInjection\Configuration;
+use Sst\SurveyLibBundle\EventListener\ResolveSurveyEntitiesTargetEntityListener;
 use Sst\SurveyLibBundle\Interfaces\Entity\AnswerInterface;
 use Sst\SurveyLibBundle\Interfaces\Entity\ContainerInterface;
 use Sst\SurveyLibBundle\Interfaces\Entity\ElementInterface;
@@ -15,6 +16,7 @@ use Sst\SurveyLibBundle\Interfaces\Entity\SurveyResponseInterface;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Definition;
 
 class DoctrineResolveTargetEntityPass implements CompilerPassInterface
 {
@@ -23,24 +25,20 @@ class DoctrineResolveTargetEntityPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container): void
     {
-        $definition = $container->findDefinition('doctrine.orm.listeners.resolve_target_entity');
-
-        $configs = $container->getExtensionConfig('sst_survey_lib');
-        $processor = new Processor();
-        $configs = $processor->processConfiguration(new Configuration(), $configs);
-
-        foreach ($this->resolveOrmTargetEntities($container, $configs) as $interface => $class) {
-            $definition->addMethodCall('addResolveTargetEntity', [
-                $interface,
-                $class,
-                [],
-            ]);
-        }
-
-        $definition->addTag('doctrine.event_subscriber', ['connection' => 'default']);
+        $definition = (new Definition(ResolveSurveyEntitiesTargetEntityListener::class))
+            ->addTag('doctrine.event_listener', ['event' => 'loadClassMetadata'])
+            ->addArgument($this->resolveOrmTargetEntities($this->getBundleConfig($container)))
+        ;
+        $container->setDefinition('sst_survey_lib_bundle_survey_entities_target_entity_listener', $definition);
     }
 
-    protected function resolveOrmTargetEntities(ContainerBuilder $container, array $configs): array
+    protected function getBundleConfig(ContainerBuilder $container): array
+    {
+        $configs = $container->getExtensionConfig('sst_survey_lib');
+        return (new Processor())->processConfiguration(new Configuration(), $configs);
+    }
+
+    protected function resolveOrmTargetEntities(array $configs): array
     {
         $surveyEntity = $configs['entities']['survey'];
         $containerEntity = $configs['entities']['container'];
