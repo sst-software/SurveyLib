@@ -21,7 +21,7 @@
   "require": {
     "php": ">=8.1",
     "symfony/http-kernel": "^6.4 || ^7.0",
-    "doctrine/orm": "^2.14",
+    "doctrine/orm": "^2.14 || ^3.3",
     "symfony/config": "^6.4 || ^7.0",
     "symfony/dependency-injection": "^6.4 || ^7.0",
     "doctrine/collections": "^2.1",
