@@ -7,6 +7,7 @@ namespace Sst\SurveyLibBundle\Entity\Traits;
 use DateTimeImmutable;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation\Timestampable;
 
 /**
  * Trait to add createdAt and updatedAt fields to entities.
@@ -14,15 +15,11 @@ use Doctrine\ORM\Mapping as ORM;
  */
 trait TimestampableTrait
 {
-    /**
-     * @Gedmo\Mapping\Annotation\Timestampable(on="create")
-     */
+    #[Timestampable(on: 'create')]
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
     protected ?DateTimeImmutable $createdAt = null;
 
-    /**
-     * @Gedmo\Mapping\Annotation\Timestampable(on="update")
-     */
+    #[Timestampable(on: 'update')]
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
     protected ?DateTimeImmutable $updatedAt = null;
 
