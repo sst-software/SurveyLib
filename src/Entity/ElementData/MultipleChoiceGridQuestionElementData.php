@@ -81,7 +81,11 @@ class MultipleChoiceGridQuestionElementData extends ElementData implements Multi
             }
         }
 
-        $this->questions = $questions;
+        $this->questions = [];
+        foreach ($questions as $question) {
+            $this->addQuestion($question);
+        }
+
         return $this;
     }
 
@@ -90,6 +94,12 @@ class MultipleChoiceGridQuestionElementData extends ElementData implements Multi
         if (array_key_exists($question->getUniqueIdentifier(), $this->questions)) {
             throw new InvalidArgumentException('Question with this unique identifier already exists');
         }
+        $this->questions[$question->getUniqueIdentifier()] = $question;
+        return $this;
+    }
+
+    public function overrideQuestion(MultipleChoiceGridQuestionQuestionInterface $question): static
+    {
         $this->questions[$question->getUniqueIdentifier()] = $question;
         return $this;
     }
