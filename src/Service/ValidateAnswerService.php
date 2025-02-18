@@ -250,7 +250,7 @@ class ValidateAnswerService implements ValidateAnswerServiceInterface
                     );
                     if (count($foundQuestions) !== 1) {
                         $context
-                            ->buildViolation('This provided answer has an answer with an unrecognized uniqueQuestionIdentifier')
+                            ->buildViolation('This provided answer has an answer with an unrecognized uniqueQuestionIdentifier "%identifier%"', ['%identifier%' => $rawAnswerItem['uniqueQuestionIdentifier']])
                             ->addViolation()
                         ;
                     }
@@ -265,11 +265,17 @@ class ValidateAnswerService implements ValidateAnswerServiceInterface
                         }
                         if (!$rawAnswerOptionFound) {
                             $context
-                                ->buildViolation('The value you selected is not a valid choice.')
+                                ->buildViolation('The value: %value% is not a valid choice.', ['%value%' => json_encode($rawAnswerItemAnswer)])
                                 ->addViolation()
                             ;
                         }
                     }
+                }
+                if (count($rawAnswer) !== count($elementData->getQuestions())) {
+                    $context
+                        ->buildViolation('You need to answer all of the questions.')
+                        ->addViolation()
+                    ;
                 }
             }),
         ];
