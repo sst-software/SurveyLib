@@ -267,7 +267,7 @@ class ValidateAnswerService implements ValidateAnswerServiceInterface
                         }
                     }
                 }
-                if (count($rawAnswer) != count($elementData->getQuestions())) {
+                if (count($rawAnswer) !== count($elementData->getQuestions())) {
                     $context
                         ->buildViolation('You need to answer all of the questions.')
                         ->addViolation()
