@@ -34,6 +34,7 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Symfony\Component\Validator\Validator\ContextualValidatorInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\Validator\Violation\ConstraintViolationBuilderInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ValidateAnswerServiceTest extends TestCase
 {
@@ -97,13 +98,14 @@ class ValidateAnswerServiceTest extends TestCase
         $validator = $this->createMock(ValidatorInterface::class);
         $validator
             ->expects($this->once())
-            ->method('startContext')
+            ->method('inContext')
             ->willReturn($contextualValidator)
         ;
 
         $service = new ValidateAnswerService(
             $this->createMock(EventDispatcherInterface::class),
-            $validator
+            $validator,
+            $this->createMock(TranslatorInterface::class),
         );
 
         $result = $service->validateAnswer(1, $elementUsage, $answer);
@@ -163,13 +165,14 @@ class ValidateAnswerServiceTest extends TestCase
         $validator = $this->createMock(ValidatorInterface::class);
         $validator
             ->expects($this->once())
-            ->method('startContext')
+            ->method('inContext')
             ->willReturn($contextualValidator)
         ;
 
         $service = new ValidateAnswerService(
             $this->createMock(EventDispatcherInterface::class),
-            $validator
+            $validator,
+            $this->createMock(TranslatorInterface::class),
         );
 
         $result = $service->validateAnswer(null, $elementUsage, $answer);
@@ -213,13 +216,14 @@ class ValidateAnswerServiceTest extends TestCase
         $validator = $this->createMock(ValidatorInterface::class);
         $validator
             ->expects($this->once())
-            ->method('startContext')
+            ->method('inContext')
             ->willReturn($contextualValidator)
         ;
 
         $service = new ValidateAnswerService(
             $this->createMock(EventDispatcherInterface::class),
-            $validator
+            $validator,
+            $this->createMock(TranslatorInterface::class),
         );
 
         $result = $service->validateAnswer(2, $elementUsage, $answer);
@@ -289,13 +293,14 @@ class ValidateAnswerServiceTest extends TestCase
         $validator = $this->createMock(ValidatorInterface::class);
         $validator
             ->expects($this->once())
-            ->method('startContext')
+            ->method('inContext')
             ->willReturn($contextualValidator)
         ;
 
         $service = new ValidateAnswerService(
             $this->createMock(EventDispatcherInterface::class),
-            $validator
+            $validator,
+            $this->createMock(TranslatorInterface::class),
         );
 
         $rawAnswer = [
@@ -378,13 +383,14 @@ class ValidateAnswerServiceTest extends TestCase
         $validator = $this->createMock(ValidatorInterface::class);
         $validator
             ->expects($this->once())
-            ->method('startContext')
+            ->method('inContext')
             ->willReturn($contextualValidator)
         ;
 
         $service = new ValidateAnswerService(
             $this->createMock(EventDispatcherInterface::class),
-            $validator
+            $validator,
+            $this->createMock(TranslatorInterface::class),
         );
 
         $rawAnswer = [
@@ -475,13 +481,14 @@ class ValidateAnswerServiceTest extends TestCase
         $validator = $this->createMock(ValidatorInterface::class);
         $validator
             ->expects($this->once())
-            ->method('startContext')
+            ->method('inContext')
             ->willReturn($contextualValidator)
         ;
 
         $service = new ValidateAnswerService(
             $this->createMock(EventDispatcherInterface::class),
-            $validator
+            $validator,
+            $this->createMock(TranslatorInterface::class),
         );
 
         $rawAnswer = [
@@ -537,13 +544,14 @@ class ValidateAnswerServiceTest extends TestCase
         $validator = $this->createMock(ValidatorInterface::class);
         $validator
             ->expects($this->once())
-            ->method('startContext')
+            ->method('inContext')
             ->willReturn($contextualValidator)
         ;
 
         $service = new ValidateAnswerService(
             $this->createMock(EventDispatcherInterface::class),
-            $validator
+            $validator,
+            $this->createMock(TranslatorInterface::class),
         );
 
         $result = $service->validateAnswer('text', $elementUsage, $answer);
@@ -591,13 +599,14 @@ class ValidateAnswerServiceTest extends TestCase
         $validator = $this->createMock(ValidatorInterface::class);
         $validator
             ->expects($this->once())
-            ->method('startContext')
+            ->method('inContext')
             ->willReturn($contextualValidator)
         ;
 
         $service = new ValidateAnswerService(
             $this->createMock(EventDispatcherInterface::class),
-            $validator
+            $validator,
+            $this->createMock(TranslatorInterface::class),
         );
 
         $result = $service->validateAnswer(3, $elementUsage, $answer);
@@ -645,13 +654,14 @@ class ValidateAnswerServiceTest extends TestCase
         $validator = $this->createMock(ValidatorInterface::class);
         $validator
             ->expects($this->once())
-            ->method('startContext')
+            ->method('inContext')
             ->willReturn($contextualValidator)
         ;
 
         $service = new ValidateAnswerService(
             $this->createMock(EventDispatcherInterface::class),
-            $validator
+            $validator,
+            $this->createMock(TranslatorInterface::class),
         );
 
         $result = $service->validateAnswer(3, $elementUsage, $answer);
@@ -713,13 +723,14 @@ class ValidateAnswerServiceTest extends TestCase
         $validator = $this->createMock(ValidatorInterface::class);
         $validator
             ->expects($this->once())
-            ->method('startContext')
+            ->method('inContext')
             ->willReturn($contextualValidator)
         ;
 
         $service = new ValidateAnswerService(
             $this->createMock(EventDispatcherInterface::class),
-            $validator
+            $validator,
+            $this->createMock(TranslatorInterface::class),
         );
 
         $result = $service->validateAnswer(new DateTimeImmutable(), $elementUsage, $answer);
@@ -787,13 +798,14 @@ class ValidateAnswerServiceTest extends TestCase
         $validator = $this->createMock(ValidatorInterface::class);
         $validator
             ->expects($this->once())
-            ->method('startContext')
+            ->method('inContext')
             ->willReturn($contextualValidator)
         ;
 
         $service = new ValidateAnswerService(
             $this->createMock(EventDispatcherInterface::class),
-            $validator
+            $validator,
+            $this->createMock(TranslatorInterface::class),
         );
 
         $result = $service->validateAnswer(null, $elementUsage, $answer);

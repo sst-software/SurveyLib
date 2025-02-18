@@ -29,14 +29,18 @@ use Symfony\Component\Validator\Constraints\LessThanOrEqual;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Type;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
+use Symfony\Component\Validator\Context\ExecutionContext;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ValidateAnswerService implements ValidateAnswerServiceInterface
 {
     public function __construct(
         protected EventDispatcherInterface $eventDispatcher,
         protected ValidatorInterface $validator,
+        private readonly TranslatorInterface $translator,
+        private readonly ?string $translationDomain = null,
     ) {
     }
 
@@ -82,7 +86,7 @@ class ValidateAnswerService implements ValidateAnswerServiceInterface
             }
         }
 
-        $violations = $this->validator->startContext($answer)
+        $violations = $this->validator->inContext($this->createContext($this->validator, $answer))
             ->validate($rawAnswer, $constraints)
             ->getViolations()
         ;
@@ -95,7 +99,7 @@ class ValidateAnswerService implements ValidateAnswerServiceInterface
     }
 
     /**
-     * @return Constraint[]
+     * @return \Symfony\Component\Validator\Constraint[]
      */
     protected function getConstraintsForUnknownElement(
         ElementUsageInterface $elementUsage,
@@ -124,7 +128,7 @@ class ValidateAnswerService implements ValidateAnswerServiceInterface
                     if (!$elementDataHasRequiredMethod) {
                         return;
                     }
-                    $required = $elementData->getElementData()->getRequired();
+                    $required = $elementData->getElementData()?->getRequired() ?? false;
                     if (!$required) {
                         return;
                     }
@@ -156,7 +160,7 @@ class ValidateAnswerService implements ValidateAnswerServiceInterface
     }
 
     /**
-     * @return Constraint[]
+     * @return \Symfony\Component\Validator\Constraint[]
      */
     protected function getConstraintsForTextElement(
         ElementUsageInterface $elementUsage,
@@ -177,7 +181,7 @@ class ValidateAnswerService implements ValidateAnswerServiceInterface
     }
 
     /**
-     * @return Constraint[]
+     * @return \Symfony\Component\Validator\Constraint[]
      */
     protected function getConstraintsForMultipleChoiceElement(
         ElementUsageInterface $elementUsage,
@@ -201,7 +205,7 @@ class ValidateAnswerService implements ValidateAnswerServiceInterface
     }
 
     /**
-     * @return Constraint[]
+     * @return \Symfony\Component\Validator\Constraint[]
      */
     protected function getConstraintsForMultipleChoiceGridElement(
         ElementUsageInterface $elementUsage,
@@ -272,7 +276,7 @@ class ValidateAnswerService implements ValidateAnswerServiceInterface
     }
 
     /**
-     * @return Constraint[]
+     * @return \Symfony\Component\Validator\Constraint[]
      */
     protected function getConstraintsForNumberElement(
         ElementUsageInterface $elementUsage,
@@ -291,7 +295,7 @@ class ValidateAnswerService implements ValidateAnswerServiceInterface
     }
 
     /**
-     * @return Constraint[]
+     * @return \Symfony\Component\Validator\Constraint[]
      */
     protected function getConstraintsForDateTimeElement(
         ElementUsageInterface $elementUsage,
@@ -335,7 +339,7 @@ class ValidateAnswerService implements ValidateAnswerServiceInterface
     }
 
     /**
-     * @return Constraint[]
+     * @return \Symfony\Component\Validator\Constraint[]
      */
     protected function getConstraintsForScaleElement(
         ElementUsageInterface $elementUsage,
@@ -354,7 +358,7 @@ class ValidateAnswerService implements ValidateAnswerServiceInterface
     }
 
     /**
-     * @return Constraint[]
+     * @return \Symfony\Component\Validator\Constraint[]
      */
     protected function getConstraintsForCustomElement(
         ElementUsageInterface $elementUsage,
@@ -367,5 +371,15 @@ class ValidateAnswerService implements ValidateAnswerServiceInterface
         //Custom elements don't have any default validations
         //Override this method in your own service, if you want to add validation for your own custom elements
         return [];
+    }
+
+    protected function createContext(ValidatorInterface $validator, mixed $root): ExecutionContextInterface
+    {
+        return new ExecutionContext(
+            $validator,
+            $root,
+            $this->translator,
+            $this->translationDomain
+        );
     }
 }

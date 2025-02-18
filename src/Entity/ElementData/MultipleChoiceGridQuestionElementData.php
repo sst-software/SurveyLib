@@ -13,8 +13,10 @@ class MultipleChoiceGridQuestionElementData extends ElementData implements Multi
 {
     protected bool $multipleAnswersAllowed = false;
 
+    /** @var MultipleChoiceQuestionAnswerOptionInterface[] */
     protected array $answerOptions = [];
 
+    /** @var MultipleChoiceGridQuestionQuestionInterface[] */
     protected array $questions = [];
 
     public function getMultipleAnswersAllowed(): bool

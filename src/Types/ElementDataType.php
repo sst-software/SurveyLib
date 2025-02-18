@@ -9,6 +9,7 @@ use Doctrine\DBAL\Types\JsonType;
 use ReflectionNamedType;
 use ReflectionUnionType;
 use Sst\SurveyLibBundle\Interfaces\Entity\ElementData\CustomElementDataInterface;
+use Sst\SurveyLibBundle\Interfaces\Entity\ElementData\MultipleChoiceGridQuestionElementDataInterface;
 use Sst\SurveyLibBundle\Interfaces\Entity\ElementData\MultipleChoiceQuestionElementDataInterface;
 
 class ElementDataType extends JsonType
@@ -41,13 +42,17 @@ class ElementDataType extends JsonType
 
     protected function getExtraData(mixed $value): array
     {
+        $result = [];
         if ($value instanceof CustomElementDataInterface) {
-            return ['elementDataType' => get_class($value->getElementData())];
+            return ['elementDataType' => $value->getElementData() ? get_class($value->getElementData()) : null];
         }
-        if ($value instanceof MultipleChoiceQuestionElementDataInterface && count($value->getAnswerOptions()) > 0) {
-            return ['answerOptionsType' => get_class($value->getAnswerOptions()[0])];
+        if (($value instanceof MultipleChoiceQuestionElementDataInterface || $value instanceof MultipleChoiceGridQuestionElementDataInterface) && count($value->getAnswerOptions()) > 0) {
+            $result['answerOptionsType'] = get_class($value->getAnswerOptions()[0]);
         }
-        return [];
+        if ($value instanceof MultipleChoiceGridQuestionElementDataInterface && count($value->getQuestions()) > 0) {
+            $result['questionsType'] = get_class($value->getQuestions()[array_key_first($value->getQuestions())]);
+        }
+        return $result;
     }
 
     public function getName(): string
@@ -55,11 +60,11 @@ class ElementDataType extends JsonType
         return self::ELEMENT_DATA_TYPE;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    protected function convertRawDbDataArrayToElementDataObject(string $className, array $dbData, array $extraData)
+    protected function convertRawDbDataArrayToElementDataObject(?string $className, array $dbData, array $extraData): mixed
     {
+        if ($className === null) {
+            return null;
+        }
         $class = new $className();
         $methods = get_class_methods($class);
         foreach ($methods as $method) {
@@ -80,8 +85,12 @@ class ElementDataType extends JsonType
             $this->convertRawDbDataToCustomElementData($class, $method, $dbDataValue, $extraData['elementDataType']);
             return;
         }
-        if ($class instanceof MultipleChoiceQuestionElementDataInterface && $keyInDbData === 'answerOptions') {
+        if (($class instanceof MultipleChoiceQuestionElementDataInterface || $class instanceof MultipleChoiceGridQuestionElementDataInterface) && $keyInDbData === 'answerOptions') {
             $this->convertRawDbDataToMultipleChoiceElementData($class, $method, $dbDataValue, $extraData['answerOptionsType'] ?? '');
+            return;
+        }
+        if ($class instanceof MultipleChoiceGridQuestionElementDataInterface && $keyInDbData === 'questions') {
+            $this->convertRawDbDataToMultipleChoiceElementData($class, $method, $dbDataValue, $extraData['questionsType'] ?? '');
             return;
         }
 
@@ -117,7 +126,7 @@ class ElementDataType extends JsonType
         return $dbDataValue;
     }
 
-    protected function convertRawDbDataToCustomElementData(mixed &$class, string $method, array $rawData, string $elementDataType): void
+    protected function convertRawDbDataToCustomElementData(mixed &$class, string $method, array $rawData, ?string $elementDataType): void
     {
         $class->$method($this->convertRawDbDataArrayToElementDataObject($elementDataType, $rawData, []));
     }
