@@ -44,7 +44,7 @@ class ElementDataType extends JsonType
     {
         $result = [];
         if ($value instanceof CustomElementDataInterface) {
-            return ['elementDataType' => get_class($value->getElementData())];
+            return ['elementDataType' => $value->getElementData() ? get_class($value->getElementData()) : null];
         }
         if (($value instanceof MultipleChoiceQuestionElementDataInterface || $value instanceof MultipleChoiceGridQuestionElementDataInterface) && count($value->getAnswerOptions()) > 0) {
             $result['answerOptionsType'] = get_class($value->getAnswerOptions()[0]);
@@ -60,11 +60,11 @@ class ElementDataType extends JsonType
         return self::ELEMENT_DATA_TYPE;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    protected function convertRawDbDataArrayToElementDataObject(string $className, array $dbData, array $extraData)
+    protected function convertRawDbDataArrayToElementDataObject(?string $className, array $dbData, array $extraData): mixed
     {
+        if ($className === null) {
+            return null;
+        }
         $class = new $className();
         $methods = get_class_methods($class);
         foreach ($methods as $method) {
@@ -126,7 +126,7 @@ class ElementDataType extends JsonType
         return $dbDataValue;
     }
 
-    protected function convertRawDbDataToCustomElementData(mixed &$class, string $method, array $rawData, string $elementDataType): void
+    protected function convertRawDbDataToCustomElementData(mixed &$class, string $method, array $rawData, ?string $elementDataType): void
     {
         $class->$method($this->convertRawDbDataArrayToElementDataObject($elementDataType, $rawData, []));
     }
