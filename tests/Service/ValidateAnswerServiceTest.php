@@ -312,6 +312,10 @@ class ValidateAnswerServiceTest extends TestCase
                 'uniqueQuestionIdentifier' => 'q2',
                 'answer' => 'test2',
             ],
+            [
+                'uniqueQuestionIdentifier' => 'q3',
+                'answer' => 'test2',
+            ],
         ];
 
 
@@ -402,6 +406,10 @@ class ValidateAnswerServiceTest extends TestCase
                 'uniqueQuestionIdentifier' => 'q2',
                 'answer' => ['test2'],
             ],
+            [
+                'uniqueQuestionIdentifier' => 'q3',
+                'answer' => ['test2'],
+            ],
         ];
 
 
@@ -457,7 +465,7 @@ class ValidateAnswerServiceTest extends TestCase
         $context
             ->expects($this->once())
             ->method('buildViolation')
-            ->with('The value you selected is not a valid choice.')
+            ->with('The value: %value% is not a valid choice.')
             ->willReturn($constraintViolationBuilder)
         ;
 
@@ -499,6 +507,10 @@ class ValidateAnswerServiceTest extends TestCase
             [
                 'uniqueQuestionIdentifier' => 'q2',
                 'answer' => 'doesNotExist',
+            ],
+            [
+                'uniqueQuestionIdentifier' => 'q3',
+                'answer' => 'test1',
             ],
         ];
 
