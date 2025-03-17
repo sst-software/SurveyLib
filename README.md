@@ -9,7 +9,7 @@ This bundle is developed by SST Software, see LICENSE for more details.
 
 # Installation
 
-- Run `composer require sst/surveylib-bundle`
+- Run `composer require sst/survey-lib-bundle`
 - Create Entities, based on the interfaces in `Interfaces/Entity` (see below)
 
 # Contents
