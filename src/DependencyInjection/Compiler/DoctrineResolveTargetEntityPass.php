@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Sst\SurveyLibBundle\DependencyInjection\Compiler;
 
 use Sst\SurveyLibBundle\DependencyInjection\Configuration;
+use Sst\SurveyLibBundle\EventListener\RegisterInterfacesListener;
 use Sst\SurveyLibBundle\EventListener\ResolveSurveyEntitiesTargetEntityListener;
 use Sst\SurveyLibBundle\Interfaces\Entity\AnswerInterface;
 use Sst\SurveyLibBundle\Interfaces\Entity\ContainerInterface;
@@ -30,6 +31,12 @@ class DoctrineResolveTargetEntityPass implements CompilerPassInterface
             ->addArgument($this->resolveOrmTargetEntities($this->getBundleConfig($container)))
         ;
         $container->setDefinition('sst_survey_lib_bundle_survey_entities_target_entity_listener', $definition);
+
+        $definition2 = (new Definition(RegisterInterfacesListener::class))
+            ->addTag('doctrine.event_listener', ['event' => 'loadClassMetadata'])
+            ->addArgument($this->resolveOrmTargetEntities($this->getBundleConfig($container)))
+        ;
+        $container->setDefinition('sst_survey_lib_bundle_survey_entities_register_interfaces_entity_listener', $definition2);
     }
 
     protected function getBundleConfig(ContainerBuilder $container): array
