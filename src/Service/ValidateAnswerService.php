@@ -170,12 +170,12 @@ class ValidateAnswerService implements ValidateAnswerServiceInterface
         if (!$elementData instanceof TextQuestionElementDataInterface) {
             throw new \InvalidArgumentException('Element is not a text question');
         }
-        $result = [new Type('string')];
+        $result = [new Type(type: 'string')];
         if ($elementData->getRequired()) {
             $result[] = new NotBlank();
         }
         if (!$elementData->getIsLong()) {
-            $result[] = new Length(['max' => 255]);
+            $result[] = new Length(max: 255);
         }
         return $result;
     }
@@ -197,7 +197,7 @@ class ValidateAnswerService implements ValidateAnswerServiceInterface
         foreach ($answerOptions as $answerOption) {
             $answerOptionValues[] = $answerOption->getValue();
         }
-        $constraints = [new Choice(['choices' => $answerOptionValues, 'multiple' => $elementData->getMultipleAnswersAllowed()])];
+        $constraints = [new Choice(choices: $answerOptionValues, multiple: $elementData->getMultipleAnswersAllowed())];
         if ($elementData->getRequired()) {
             $constraints[] = new NotBlank();
         }
@@ -217,7 +217,7 @@ class ValidateAnswerService implements ValidateAnswerServiceInterface
         }
 
         return [
-            new Type('array'),
+            new Type(type: 'array'),
             new Callback(callback: function ($rawAnswer, ExecutionContextInterface $context, $payload): void {
                 $elementData = $context->getRoot()?->getElementUsage()?->getElementWithOverrides()?->getElementData();
                 if ($elementData === null) {
@@ -294,9 +294,9 @@ class ValidateAnswerService implements ValidateAnswerServiceInterface
         }
 
         return [
-            new Type(['type' => ['int', 'float']]),
-            new GreaterThanOrEqual(['value' => $elementData->getMinimum()]),
-            new LessThanOrEqual(['value' => $elementData->getMaximum()]),
+            new Type(type: ['int', 'float']),
+            new GreaterThanOrEqual(value: $elementData->getMinimum()),
+            new LessThanOrEqual(value: $elementData->getMaximum()),
         ];
     }
 
@@ -324,21 +324,21 @@ class ValidateAnswerService implements ValidateAnswerServiceInterface
             }),
         ];
         if ($elementData->getMinimum() !== null) {
-            $result[] = new GreaterThanOrEqual(['value' => $elementData->getMinimum()]);
+            $result[] = new GreaterThanOrEqual(value: $elementData->getMinimum());
         }
 
         if ($elementData->getMaximum() !== null) {
-            $result[] = new LessThanOrEqual(['value' => $elementData->getMaximum()]);
+            $result[] = new LessThanOrEqual(value: $elementData->getMaximum());
         }
 
         if ($elementData->getMaxPast()) {
             $minimalDate = (new DateTimeImmutable())->sub($elementData->getMaxPast());
-            $result[] = new GreaterThanOrEqual(['value' => $minimalDate]);
+            $result[] = new GreaterThanOrEqual(value: $minimalDate);
         }
 
         if ($elementData->getMaxFuture()) {
             $maximumDate = (new DateTimeImmutable())->add($elementData->getMaxFuture());
-            $result[] = new LessThanOrEqual(['value' => $maximumDate]);
+            $result[] = new LessThanOrEqual(value: $maximumDate);
         }
 
         return $result;
@@ -357,9 +357,9 @@ class ValidateAnswerService implements ValidateAnswerServiceInterface
         }
 
         return [
-            new Type(['type' => ['int', 'float']]),
-            new GreaterThanOrEqual(['value' => $elementData->getMinimum()]),
-            new LessThanOrEqual(['value' => $elementData->getMaximum()]),
+            new Type(type: ['int', 'float']),
+            new GreaterThanOrEqual(value: $elementData->getMinimum()),
+            new LessThanOrEqual(value: $elementData->getMaximum()),
         ];
     }
 
