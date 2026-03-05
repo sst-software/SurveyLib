@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sst\SurveyLibBundle\Service;
 
+use Sst\SurveyLibBundle\Exception\ConditionEvaluationException;
 use Sst\SurveyLibBundle\Interfaces\Entity\AnswerInterface;
 use Sst\SurveyLibBundle\Interfaces\Entity\ContainerInterface;
 use Sst\SurveyLibBundle\Interfaces\Entity\ElementUsageInterface;
@@ -40,7 +41,13 @@ class DisplayConditionService implements DisplayConditionServiceInterface
         if ($ast === null) {
             return true;
         }
-        return ((bool)$ast->evaluate([], $this->getConditionData($surveyResponse)));
+        try {
+            $conditionData = $this->getConditionData($surveyResponse);
+            $evaluated = $ast->evaluate([], $conditionData);
+        } catch (\Throwable $e) {
+            throw new ConditionEvaluationException($displayItem, $surveyResponse, $conditionData, $displayCondition, $e);
+        }
+        return ((bool)$evaluated);
     }
 
     public function getPhpCondition(ElementUsageInterface|ContainerInterface $displayItem): string
