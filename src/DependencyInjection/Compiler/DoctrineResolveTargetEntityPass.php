@@ -28,6 +28,7 @@ class DoctrineResolveTargetEntityPass implements CompilerPassInterface
     {
         $definition = (new Definition(ResolveSurveyEntitiesTargetEntityListener::class))
             ->addTag('doctrine.event_listener', ['event' => 'loadClassMetadata'])
+            ->addTag('doctrine.event_listener', ['event' => 'onClassMetadataNotFound'])
             ->addArgument($this->resolveOrmTargetEntities($this->getBundleConfig($container)))
         ;
         $container->setDefinition('sst_survey_lib_bundle_survey_entities_target_entity_listener', $definition);
