@@ -20,9 +20,11 @@ class RegisterInterfacesListener implements EventSubscriber
         // Actively set the metadata for the interface, as was done until Doctrine ORM 3.5.2, but removed in version 3.5.3
         // https://github.com/doctrine/orm/pull/12174/files
         $cm = $args->getClassMetadata();
+        $className = ltrim($cm->getName(), '\\');
+
         foreach ($this->mapping as $interface => $class) {
-            if ($class === $cm->getName()) {
-                $args->getEntityManager()->getMetadataFactory()->setMetadataFor($interface, $cm);
+            if (ltrim((string) $class, '\\') === $className) {
+                $args->getEntityManager()->getMetadataFactory()->setMetadataFor(ltrim((string) $interface, '\\'), $cm);
             }
         }
     }

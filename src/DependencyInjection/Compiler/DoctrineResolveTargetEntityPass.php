@@ -47,35 +47,23 @@ class DoctrineResolveTargetEntityPass implements CompilerPassInterface
 
     protected function resolveOrmTargetEntities(array $configs): array
     {
-        $surveyEntity = $configs['entities']['survey'];
-        $containerEntity = $configs['entities']['container'];
-        $elementUsageEntity = $configs['entities']['elementUsage'];
-        $elementEntity = $configs['entities']['element'];
-        $elementOverride = $configs['entities']['elementOverride'];
-        $surveyResponseEntity = $configs['entities']['surveyResponse'];
-        $answerEntity = $configs['entities']['answer'];
-
         $targetEntities = [];
-        if (class_exists($surveyEntity)) {
-            $targetEntities[SurveyInterface::class] = $surveyEntity;
-        }
-        if (class_exists($containerEntity)) {
-            $targetEntities[ContainerInterface::class] = $containerEntity;
-        }
-        if (class_exists($elementUsageEntity)) {
-            $targetEntities[ElementUsageInterface::class] = $elementUsageEntity;
-        }
-        if (class_exists($elementEntity)) {
-            $targetEntities[ElementInterface::class] = $elementEntity;
-        }
-        if (class_exists($surveyResponseEntity)) {
-            $targetEntities[SurveyResponseInterface::class] = $surveyResponseEntity;
-        }
-        if (class_exists($answerEntity)) {
-            $targetEntities[AnswerInterface::class] = $answerEntity;
-        }
-        if (class_exists($elementOverride)) {
-            $targetEntities[ElementOverrideInterface::class] = $elementOverride;
+        $entities = $configs['entities'];
+
+        $mapping = [
+            SurveyInterface::class => $entities['survey'],
+            ContainerInterface::class => $entities['container'],
+            ElementUsageInterface::class => $entities['elementUsage'],
+            ElementInterface::class => $entities['element'],
+            SurveyResponseInterface::class => $entities['surveyResponse'],
+            AnswerInterface::class => $entities['answer'],
+            ElementOverrideInterface::class => $entities['elementOverride'],
+        ];
+
+        foreach ($mapping as $interface => $class) {
+            if ($class) {
+                $targetEntities[$interface] = $class;
+            }
         }
 
         return $targetEntities;
